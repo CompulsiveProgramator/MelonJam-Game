@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Cat_Movement : MonoBehaviour
 {
+    public GameObject musicPlayer;
     public float jumpForce;
     public float climbSpeed; //To select climbing speed of the cat
     public float Speed; //To select movement speed of the cat
@@ -47,6 +48,27 @@ public class Cat_Movement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W) && Grounded == true)
         {
             Jump();
+        }
+
+        playMusic();
+    }
+
+    private void playMusic()
+    {
+        if((capsuleCollider2D.IsTouchingLayers(LayerMask.GetMask("MusicPlayer"))) && Input.GetKeyDown(KeyCode.F))
+        {
+            Music_behaviour mb = musicPlayer.GetComponent<Music_behaviour>();
+            mb.playRandomSong();
+        }
+    }
+
+    /*
+        To manage interaction with point events
+    */
+    private void OnCollisionEnter2D(Collision2D other) {
+        if((capsuleCollider2D.IsTouchingLayers(LayerMask.GetMask("PointEvent"))))
+        {
+            Destroy(other.gameObject);
         }
     }
 

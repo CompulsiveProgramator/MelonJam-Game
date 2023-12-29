@@ -12,7 +12,7 @@ public class Bird_behaviour : MonoBehaviour
         Cat_Movement cat = other.gameObject.GetComponent<Cat_Movement>();
         if(cat != null)
         {
-            PointBar_behaviour pb = GameObject.Find("Point bar").GetComponent<PointBar_behaviour>();
+            PointBar_behaviour pb = GameObject.Find("UI").GetComponent<PointBar_behaviour>();
             for(int i = 0 ; i < 10 ; i++)
             {
                 pb.increasePoints();
