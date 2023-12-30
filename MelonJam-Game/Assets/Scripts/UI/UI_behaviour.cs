@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; //Libreria para cambiar de escena
 
 public class UI_behaviour : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class UI_behaviour : MonoBehaviour
     {
         if(relaxation == 1)
         {
-            //ToDo Game Over
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); //Game over
         }else if(relaxation > 1)
         {
             relaxation--;
