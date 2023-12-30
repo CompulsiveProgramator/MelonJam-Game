@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class PEM_behaviour : MonoBehaviour
 {
-    public GameObject birdPrefab; //To store the bird prefab
-    public Vector3 birdSpawnPosition; //To store the spawn position of the bird
-    private float lastSpawn; //To store the last time of bird spawn
+    public GameObject charmPrefab; //To store the charm prefab
+    public Vector3[] charmSpawnPosition; //To store the spawn position of the charm
+    public int nSpawnPos; //To know the number of spawn positions
+    private float lastSpawn; //To store the last time of charm spawn
+    private float lapse = 40f; //To store the time lapse between spawns
 
-    // Start is called before the first frame update
     void Start()
     {
-        GameObject bird = Instantiate(birdPrefab, birdSpawnPosition, Quaternion.identity);
+        int pos = Random.Range(0, nSpawnPos);
+        GameObject bird = Instantiate(charmPrefab, charmSpawnPosition[pos], Quaternion.identity);
         lastSpawn = Time.time;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(Time.time > lastSpawn + 4f)
+        if(Time.time > lastSpawn + lapse)
         {
-            GameObject bird = Instantiate(birdPrefab, birdSpawnPosition, Quaternion.identity);
+            int pos = Random.Range(0, nSpawnPos);
+            GameObject bird = Instantiate(charmPrefab, charmSpawnPosition[pos], Quaternion.identity);
             lastSpawn = Time.time;
         }
     }

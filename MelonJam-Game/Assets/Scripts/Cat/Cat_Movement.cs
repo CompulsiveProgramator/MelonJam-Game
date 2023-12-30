@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Cat_Movement : MonoBehaviour
 {
-    public GameObject musicPlayer;
+    public AudioClip jumpSound; //The sound of jumping by the cat
+    public GameObject musicPlayer; //The music player ;)
+    public GameObject pointBar; //The point bar
     public float jumpForce;
     public float climbSpeed; //To select climbing speed of the cat
     public float Speed; //To select movement speed of the cat
@@ -16,7 +18,7 @@ public class Cat_Movement : MonoBehaviour
     private bool climbing; //To know if the cat is climbing stairs or not
     private float initialGravity; //To store the initial gravity
     private Vector3 originalScale; //The "x" and "y" original scale
-
+    private int pointsSong = 10; //The points needed for changing the song   
     void Start()
     {
         Rigidbody2D = GetComponent<Rigidbody2D>();
@@ -53,12 +55,24 @@ public class Cat_Movement : MonoBehaviour
         playMusic();
     }
 
+    /*
+        Method called for changing the song playing
+    */
     private void playMusic()
     {
         if((capsuleCollider2D.IsTouchingLayers(LayerMask.GetMask("MusicPlayer"))) && Input.GetKeyDown(KeyCode.F))
         {
             Music_behaviour mb = musicPlayer.GetComponent<Music_behaviour>();
-            mb.playRandomSong();
+            PointBar_behaviour ph = pointBar.GetComponent<PointBar_behaviour>();
+            
+            if(ph.getPoints() >= pointsSong)
+            {
+                for(int i = 0 ; i < pointsSong ; i++)
+                {
+                    ph.decreasePoints();
+                }
+                mb.playRandomSong();
+            }
         }
     }
 
@@ -66,7 +80,7 @@ public class Cat_Movement : MonoBehaviour
         To manage interaction with point events
     */
     private void OnCollisionEnter2D(Collision2D other) {
-        if((capsuleCollider2D.IsTouchingLayers(LayerMask.GetMask("PointEvent"))))
+        if(other.gameObject.layer == 7)
         {
             Destroy(other.gameObject);
         }
@@ -78,6 +92,7 @@ public class Cat_Movement : MonoBehaviour
     private void Jump()
     {
         Rigidbody2D.AddForce(Vector2.up * jumpForce);
+        Camera.main.GetComponent<AudioSource>().PlayOneShot(jumpSound);
     }
 
     private void FixedUpdate() {
